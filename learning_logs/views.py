@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
@@ -12,13 +12,17 @@ def index(request):
 
 @login_required
 def topics(request):
-    topics = Topic.objects.order_by('date_added')
+    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    # topics = Topic.objects.order_by('date_added')
     context = {'topics': topics}
     return render(request, 'learning_logs/topics.html', context)
 
 @login_required
 def topic(request, topic_id):
     topic = Topic.objects.get(id=topic_id)
+    if topic.owner != request.user:
+        raise Http404
+
     entries = topic.entry_set.order_by('-date_added')
     # entries = topic.entry_set.order_by('date_added')
     context = {'topic':topic, 'entries': entries}
@@ -33,8 +37,6 @@ def new_topic(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('learning_logs:topics'))
-            # return render(request, 'learning_logs/topic.html')
-            # return HttpResponseRedirect('topics/')
     
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
@@ -71,3 +73,4 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
