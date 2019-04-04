@@ -5,20 +5,16 @@
   <h2>Log in to your account.</h2>
 {% endblock header %}
 
-
 {% block content %}
-  
   {% comment %} {% if form.errors %}
   <p>Please try again.</p>
   {% endif %} {% endcomment %}
-
   <form action="{% url 'users:login' %}" method="post" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% comment %} {{ form.as_p }} {% endcomment %}
 
     {% comment %} <button name="submit">log in</button> {% endcomment %}
-
     {% buttons %}
       <button name="submit" class='btn btn-primary'>log in</button>
     {% endbuttons %}
