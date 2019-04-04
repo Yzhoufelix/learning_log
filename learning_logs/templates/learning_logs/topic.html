@@ -6,20 +6,15 @@
 
 {% block content %}
 
-  {% comment %} <p>Topic: {{ topic }}</p> {% endcomment %}
-
-  {% comment %} <p>Entries:</p> {% endcomment %}
   <p>
     <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
   </p>
 
-  {% comment %} <ul> {% endcomment %}
+
   {% for entry in entries %}
-    {% comment %} <li> {% endcomment %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3>
-        {% comment %} <p>{{ entry.date_added|date:'M d, Y H:i'}}</p> {% endcomment %}
           {{ entry.date_added|date:'M d, Y H:i'}}
           <small>
             <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
@@ -27,19 +22,14 @@
         </h3>
       </div>
       <div class="panel-body">    
-        {% comment %} <p>{{ entry.text|linebreaks }}</p> {% endcomment %}
         {{ entry.text|linebreaks }}
       </div>
     </div> <!-- panel -->   
-      {% comment %} <p>
-        <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
-      </p> {% endcomment %}
-    {% comment %} </li> {% endcomment %}
+
   {% empty %}
     <li>
       There are no entries for this topic yet.
     </li>
   {% endfor %}
-  {% comment %} </ul> {% endcomment %}
   
 {% endblock content %}
