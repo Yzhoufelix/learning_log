@@ -147,7 +147,7 @@ if cwd == '/app' or cwd[:4] == '/tmp':
 
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    ALLOWED_HOSTS = ['*', '0.0.0.0']
+    ALLOWED_HOSTS = ['*', '0.0.0.0','127.0.0.1']
     DEBUG = True
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
